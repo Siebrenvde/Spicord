@@ -29,6 +29,7 @@ import org.spicord.config.SpicordConfiguration;
 import org.spicord.event.EventHandler;
 import org.spicord.event.SpicordEvent;
 import org.spicord.util.JarClassLoader;
+import org.spicord.util.UpdateNotifier;
 import org.spicord.util.sched.SpicordSchedulerV1;
 
 import com.google.common.base.Preconditions;
@@ -59,9 +60,9 @@ public final class SpicordLoader {
 
         final int availableProcessors = Runtime.getRuntime().availableProcessors();
 
-        final boolean isJava17 = System.getProperty("java.version").startsWith("17.");
+        final boolean isJava17 = isJava17OrGreater();
 
-        final boolean useTestScheduler = isJava17 && availableProcessors < 2;
+        final boolean useTestScheduler = isJava17 || availableProcessors < 2;
 
         if (useTestScheduler) {
 
@@ -98,6 +99,21 @@ public final class SpicordLoader {
         } catch (IOException e) {
             handleException(e);
         }
+
+        new UpdateNotifier(
+            "https://api.spicord.org/checkversion", logger, false
+        ).checkForVersionAsync(threadPool, Spicord.getVersion(), null);
+    }
+
+    private boolean isJava17OrGreater() {
+        final String javaVersionString = System.getProperty("java.version");
+        try {
+            String major = javaVersionString.split("\\.", 2)[0];
+            return Integer.parseInt(major) >= 17;
+        } catch (Exception e) {
+            new IllegalArgumentException("Failed to parse java version: " + javaVersionString, e).printStackTrace();
+        }
+        return false;
     }
 
     public void load() {
