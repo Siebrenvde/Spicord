@@ -82,8 +82,10 @@ public class DiscordBot extends SimpleBot {
     protected final Map<String, Consumer<DiscordBotCommand>> commands;
 
     @Getter private final Collection<String> addons;
-    @Getter private final boolean commandSupportEnabled;
-    @Getter private final String commandPrefix;    
+
+    @Deprecated @Getter private final boolean commandSupportEnabled;
+
+    @Deprecated @Getter private final String commandPrefix;    
 
     private boolean initialCommandCleanup;
 
@@ -290,6 +292,10 @@ public class DiscordBot extends SimpleBot {
     private void registerCommand(SlashCommand command, CommandCreateAction createAction) {
         Map<String, SlashCommandHandler> handlers = new LinkedHashMap<>();
 
+        for (SlashCommandOption option : command.getOptions()) {
+            createAction.addOptions(option.toJdaOption());
+        }
+
         if (command.isSingle()) {
             final SlashCommandHandler handler = new SlashCommandHandler(
                 command.getExecutor(),
@@ -297,10 +303,6 @@ public class DiscordBot extends SimpleBot {
             );
             handlers.put(command.getName(), handler);
         } else {
-            for (SlashCommandOption option : command.getOptions()) {
-                createAction.addOptions(option.toJdaOption());
-            }
-
             for (SlashCommandGroup subcommandGroup : command.getSubcommandGroups()) {
                 createAction.addSubcommandGroups(subcommandGroup.buildGroup());
 
