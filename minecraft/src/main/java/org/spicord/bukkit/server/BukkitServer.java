@@ -2,8 +2,10 @@ package org.spicord.bukkit.server;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -50,11 +52,14 @@ public class BukkitServer extends eu.mcdb.universal.Server {
 
     @Override
     public String[] getOnlinePlayers() {
+        final Set<String> result = new HashSet<>();
         final VanishAPI vanish = VanishAPI.get();
-        return server.getOnlinePlayers().stream()
-                .filter(vanish::isVisible)
-                .map(Player::getName)
-                .toArray(String[]::new);
+        for (Player player : server.getOnlinePlayers()) {
+            if (vanish.isVisible(player)) {
+                result.add(player.getName());
+            }
+        }
+        return result.toArray(new String[result.size()]);
     }
 
     @Override

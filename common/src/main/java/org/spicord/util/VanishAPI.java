@@ -17,11 +17,14 @@ public abstract class VanishAPI {
                 } else if (Server.getServerType() == ServerType.BUKKIT) {
                     return self = new Bukkit();
                 }
-            } else {
-                return self = new Dummy();
             }
+            return self = new Dummy();
         }
         return self;
+    }
+
+    public static boolean isDummy() {
+        return get() instanceof Dummy;
     }
 
     public abstract boolean isVanished(Object player);
