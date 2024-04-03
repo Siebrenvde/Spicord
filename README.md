@@ -44,7 +44,7 @@
 <dependency>
     <groupId>org.spicord</groupId>
     <artifactId>spicord-common</artifactId>
-    <version>5.3.1</version>
+    <version>5.4.0</version>
     <scope>provided</scope>
 </dependency>
 ```

@@ -35,7 +35,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 
 import eu.mcdb.universal.Server;
 
-@Plugin(id = "spicord", name = "Spicord", version = "5.3", authors = { "Tini" })
+@Plugin(id = "spicord", name = "Spicord", version = "5.4.0", authors = { "Tini" })
 public class SpicordVelocity extends VelocityPlugin implements SpicordPlugin {
 
     private SpicordLoader loader;
