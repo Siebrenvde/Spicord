@@ -131,7 +131,7 @@ public class AddonManager {
             final boolean spicordLoaded = spicord.getConfig() != null;
             if (spicordLoaded) { // too late
                 for (DiscordBot bot : spicord.getConfig().getBots()) {
-                    if (bot.isEnabled() && bot.getAddons().contains(addon.getId())) {
+                    if (bot.isEnabled() && bot.getAddons().contains(addon.getId()) && bot.getJda() != null) {
                         bot.loadAddon(addon);
                         spicord.debug("[Late-Loading] [%s] Notifying that bot '%s' has already loaded.", addon.getId(), bot.getName());
                         if (bot.isReady()) {
