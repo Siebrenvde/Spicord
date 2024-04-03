@@ -60,14 +60,14 @@
 ```
 
 ## Building
-Install maven and git (Ubuntu)
+Install maven and git (Debian-based)
 
 `sudo apt install maven git -y`
 
 
 Clone this repository and 'cd' into it
 
-`git clone https://github.com/OopsieWoopsie/Spicord.git && cd Spicord`
+`git clone https://github.com/Spicord/Spicord && cd Spicord`
 
 
 Build the project
@@ -79,4 +79,4 @@ The JAR file for Minecraft server will be located at `minecraft/target/Spicord_V
 
 
 
-**Note**: Spicord uses [Java Discord API (JDA)](https://github.com/DV8FromTheWorld/JDA)
+**Note**: Spicord uses [Java Discord API (JDA)](https://github.com/discord-jda/JDA)
