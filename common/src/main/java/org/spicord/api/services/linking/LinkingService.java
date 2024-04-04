@@ -89,14 +89,16 @@ public interface LinkingService extends Service {
     boolean removePending(PendingLinkData data);
 
     /**
+     * Get all the link data
      * 
-     * @return
+     * @return an array containing all the link data
      */
     LinkData[] getLinked();
 
     /**
+     * Get all the pending link data
      * 
-     * @return
+     * @return an array containing all the pending link data
      */
     PendingLinkData[] getPending();
 

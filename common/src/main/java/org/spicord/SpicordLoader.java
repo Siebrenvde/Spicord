@@ -50,6 +50,8 @@ public final class SpicordLoader {
 
     /**
      * The {@link SpicordLoader} constructor.
+     * 
+     * @param plugin the plugin instance
      */
     public SpicordLoader(SpicordPlugin plugin) {
         this(null, plugin);

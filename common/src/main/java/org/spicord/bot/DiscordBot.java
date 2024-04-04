@@ -106,11 +106,22 @@ public class DiscordBot extends SimpleBot {
      * @param token                 the bot token
      * @param enabled               true if the bot should start
      * @param addons                the list of addons IDs
+     * @param initialCommandCleanup true if all the previously registered commands should be unregistered
      * @param commandSupportEnabled true if this bot should support commands
      * @param prefix                the command prefix for this bot
      * @see DiscordBotLoader#startBot(DiscordBot)
      */
-    public DiscordBot(Spicord spicord, String name, String token, boolean enabled, List<String> addons, boolean initialCommandCleanup, boolean commandSupportEnabled, String prefix) {
+    public DiscordBot(
+        Spicord spicord,
+        String name,
+        String token,
+        boolean enabled,
+        List<String> addons,
+        boolean initialCommandCleanup,
+        boolean commandSupportEnabled,
+        String prefix
+    ) {
+
         super(name, token);
 
         this.spicord = spicord;
@@ -432,8 +443,9 @@ public class DiscordBot extends SimpleBot {
     }
 
     /**
-     * Unload the given addon from this bot.
+     * Unload an addon from this bot.
      * 
+     * @param <T> the addon instance type
      * @param addon the addon to unload
      */
     public <T extends SimpleAddon> void unloadAddon(T addon) {
@@ -536,7 +548,9 @@ public class DiscordBot extends SimpleBot {
 
     /**
      * Get the JDA Status, can be any value from {@link JDA.Status}
-     * @return
+     * or "-" if the JDA instance has not been created yet
+     * 
+     * @return the JDA Status name.
      */
     public String getJdaStatus() {
         if (jda != null) {

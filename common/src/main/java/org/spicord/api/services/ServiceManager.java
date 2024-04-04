@@ -43,35 +43,36 @@ public interface ServiceManager {
     boolean isServiceRegistered(Class<? extends Service> serviceClass);
 
     /**
-     * Unregisters a previously registered service provider and it becomes available for further registration.
-     * <br>
-     * For example {@code unregisterService(LinkingService.class)} will return true if the provider for {@link LinkingService} was unregistered. 
+     * Unregisters a previously registered service.
      * 
-     * @param serviceClass the service to be unregistered
+     * @param serviceClass the class of the service to be unregistered
      * @return true if the service was successfully unregistered
      */
     boolean unregisterService(Class<? extends Service> serviceClass);
 
     /**
+     * Unregisters a previously registered service.
      * 
-     * @param service
-     * @return
+     * @param service the instance of the service to be unregistered
+     * @return true if the service was successfully unregistered
      */
     boolean unregisterService(Service service);
 
     /**
+     * Get a service instance by its class.
      * 
-     * @param <T>
-     * @param serviceClass
-     * @return
+     * @param <T> the service instance type
+     * @param serviceClass the class of the service
+     * @return the service instance
      */
     <T extends Service> T getService(Class<? extends Service> serviceClass);
 
     /**
+     * Get a service instance by its id.
      * 
-     * @param <T>
-     * @param id
-     * @return
+     * @param <T> the service instance type
+     * @param id the id of the service
+     * @return the service instance
      */
     <T extends Service> T getService(String id);
 }

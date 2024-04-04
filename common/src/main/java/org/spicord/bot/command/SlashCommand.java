@@ -42,7 +42,7 @@ public class SlashCommand {
     /**
      * Set whether this command should only be present on guilds.
      * 
-     * @param guildOnly
+     * @param guildOnly true if this command should only be present on guilds
      * @return this SlashCommand instance
      */
     public SlashCommand setGuildOnly(boolean guildOnly) {
@@ -53,7 +53,7 @@ public class SlashCommand {
     /**
      * Set whether this command has NSFW purposes. 
      * 
-     * @param nsfw
+     * @param nsfw true to mark this command as nsfw
      * @return this SlashCommand instance
      */
     public SlashCommand setNSFW(boolean nsfw) {

@@ -23,29 +23,32 @@ import java.io.IOException;
 public interface IScriptEngine {
 
     /**
+     * Load an script from the given file
      * 
-     * @param <T>
-     * @param file
-     * @return
-     * @throws IOException
+     * @param <T> the return type
+     * @param file the file to load
+     * @return the value returned by the script
+     * @throws IOException if an error occurred while reading the file
      */
     <T> T loadScript(File file) throws IOException;
 
     /**
+     * Load an script from the given file
      * 
-     * @param <T>
-     * @param file
-     * @param env
-     * @return
-     * @throws IOException
+     * @param <T> the return type
+     * @param file the file to load
+     * @param env the environment to expose to the script
+     * @return the value returned by the script
+     * @throws IOException if an error occurred while reading the file
      */
     <T> T loadScript(File file, ScriptEnvironment env) throws IOException;
 
     /**
+     * Evaluate an script
      * 
-     * @param <T>
-     * @param script
-     * @return
+     * @param <T> the return type
+     * @param script the script to evaluate
+     * @return the value returned by the script
      */
     <T> T eval(String script);
 

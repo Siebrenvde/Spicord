@@ -63,8 +63,8 @@ public final class Spicord {
      * The Spicord constructor.
      * 
      * @param logger the logger instance
-     * @param threadPool 
-     * @param plugin 
+     * @param threadPool the thread pool
+     * @param plugin the plugin instance
      */
     protected Spicord(Logger logger, ScheduledExecutorService threadPool, SpicordPlugin plugin) {
         instance = this;
@@ -174,6 +174,7 @@ public final class Spicord {
      * Print a message in the console if the debug mode is enabled.
      * 
      * @param message the message to print
+     * @param args the message arguments
      */
     public void debug(String message, Object... args) {
         if (config.isDebugEnabled())
@@ -192,6 +193,8 @@ public final class Spicord {
 
     /**
      * Get the Spicord version.
+     * 
+     * @return the Spicord version
      */
     public static String getVersion() {
         return Spicord.class.getPackage().getImplementationVersion();

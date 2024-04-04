@@ -41,14 +41,29 @@ public class LinkData {
         this.playerId = playerId;
     }
 
+    /**
+     * Get the player discord id
+     * 
+     * @return the player discord id
+     */
     public long getDiscordId() {
         return discordId;
     }
 
+    /**
+     * Get the player name
+     * 
+     * @return the player name
+     */
     public String getPlayerName() {
         return playerName;
     }
 
+    /**
+     * Get the player id
+     * 
+     * @return the player id
+     */
     public UUID getPlayerId() {
         return UUID.fromString(playerId);
     }

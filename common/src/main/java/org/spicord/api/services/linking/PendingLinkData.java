@@ -34,10 +34,20 @@ public class PendingLinkData {
         this.uniqueId = playerId;
     }
 
+    /**
+     * Get the player name
+     * 
+     * @return the player name
+     */
     public String getPlayerName() {
         return name;
     }
 
+    /**
+     * Get the player id
+     * 
+     * @return the player id
+     */
     public UUID getPlayerId() {
         return uniqueId;
     }
