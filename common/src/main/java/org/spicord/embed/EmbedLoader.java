@@ -69,7 +69,7 @@ public class EmbedLoader {
      * Gets an embed instance previously loaded by using its name. <br>
      * Note: The embed name has the same name as the file but without the .json extension.
      * 
-     * @see {@link #load(File)}
+     * @see #load(File)
      * @param name the embed name
      * @return the {@link Embed} instance
      */

@@ -52,7 +52,7 @@ public class ZipExtractor implements AutoCloseable {
      * All the entries that matches with the pattern will be available for
      * extraction and the ones who didn't matched will be ignored.
      * 
-     * @see {@link #extractTo(File)}
+     * @see #extractTo(File)
      * @param regex the regex pattern
      */
     public void filter(final String regex) {
@@ -65,7 +65,7 @@ public class ZipExtractor implements AutoCloseable {
      * <br>
      * If a filter was applied, only the filtered files will be extracted.
      * 
-     * @see {@link #filter(String)}
+     * @see #filter(String)
      * @param out the output folder to extract the files
      * @throws IOException if an I/O error has occurred
      */

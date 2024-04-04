@@ -17,6 +17,8 @@
 
 package org.spicord.api.services;
 
+import org.spicord.api.services.linking.LinkingService;
+
 public interface ServiceManager {
 
     /**

@@ -42,7 +42,7 @@ public interface LinkingService extends Service {
     /**
      * Check if a player with the given id has linked their account.
      * 
-     * @param id the id of a player
+     * @param playerId the id of a player
      * @return true if the player is linked
      */
     boolean isLinked(UUID playerId);
@@ -50,7 +50,7 @@ public interface LinkingService extends Service {
     /**
      * Check if the given Discord user id is linked to a player.
      * 
-     * @param id the discord id
+     * @param discordId the discord id
      * @return true if the user is linked
      */
     boolean isLinked(Long discordId);

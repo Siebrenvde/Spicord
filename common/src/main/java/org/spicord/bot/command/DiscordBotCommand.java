@@ -30,12 +30,12 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 
 public class DiscordBotCommand extends SimpleCommand {
 
+    private final String name;
     @Getter private final Message message;
     @Getter private final User author;
     private final Member member;
     @Getter private final Guild guild;
     @Getter private final GuildMessageChannel channel;
-    @Getter private final String name;
     @Getter private final String prefix;
 
     /**
@@ -57,6 +57,10 @@ public class DiscordBotCommand extends SimpleCommand {
         this.prefix = raw.split(" ")[0].substring(0, raw.indexOf(name));
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getAuthorAsMention() {
         return author.getAsMention();
     }
@@ -65,7 +69,7 @@ public class DiscordBotCommand extends SimpleCommand {
      * Wrap the given message into an embed and send it.
      * 
      * @param message the message to send
-     * @see {@link #reply(String, boolean)}
+     * @see #reply(String, boolean)
      */
     public void reply(String message) {
         reply(message, true);

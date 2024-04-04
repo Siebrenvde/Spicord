@@ -238,8 +238,9 @@ public class AddonManager {
     }
 
     /**
+     * Load all the addons found in addonsDir
      * 
-     * @param dir
+     * @param addonsDir the directory
      */
     public void loadAddons(File addonsDir) {
         checkNotNull(addonsDir);

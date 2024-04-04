@@ -108,7 +108,7 @@ public class DiscordBot extends SimpleBot {
      * @param addons                the list of addons IDs
      * @param commandSupportEnabled true if this bot should support commands
      * @param prefix                the command prefix for this bot
-     * @see {@link DiscordBotLoader#startBot(DiscordBot)}
+     * @see DiscordBotLoader#startBot(DiscordBot)
      */
     public DiscordBot(Spicord spicord, String name, String token, boolean enabled, List<String> addons, boolean initialCommandCleanup, boolean commandSupportEnabled, String prefix) {
         super(name, token);

@@ -183,7 +183,7 @@ public final class Spicord {
     /**
      * Get the Spicord instance.
      * 
-     * @see {@link #isLoaded()}
+     * @see #isLoaded()
      * @return the Spicord instance, may be null
      */
     public static Spicord getInstance() {

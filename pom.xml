@@ -148,6 +148,13 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <excludePackageNames>eu.mcdb.*</excludePackageNames>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
