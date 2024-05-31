@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ public class BungeeServer extends Server {
     private final Plugin plugin;
 
     private BungeeEventProcessor eventProcessor;
+    private BungeeServerScheduler scheduler;
 
     public BungeeServer(ProxyServer server, Plugin plugin) {
         this.server = server;
@@ -38,6 +40,8 @@ public class BungeeServer extends Server {
             plugin,
             new BungeeListenerAdapter(eventProcessor)
         );
+
+        this.scheduler = new BungeeServerScheduler(this.plugin);
     }
 
     @Override
@@ -149,5 +153,10 @@ public class BungeeServer extends Server {
     @Override
     public void registerCommand(Object plugin, UniversalCommand command) {
         BungeeCommandExecutor.register((Plugin) plugin, command);
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return scheduler;
     }
 }

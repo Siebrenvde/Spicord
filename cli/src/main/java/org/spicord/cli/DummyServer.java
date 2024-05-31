@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
 import eu.mcdb.universal.Server;
 import eu.mcdb.universal.command.UniversalCommand;
@@ -68,5 +69,10 @@ public class DummyServer extends Server {
 
     @Override
     public void registerCommand(Object plugin, UniversalCommand command) {
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return null;
     }
 }

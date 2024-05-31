@@ -29,6 +29,8 @@ import java.security.MessageDigest;
 import java.util.logging.Logger;
 import org.spicord.util.JarClassLoader;
 import org.spicord.util.SpicordClassLoader;
+
+import lombok.Getter;
 import lombok.Setter;
 
 public class LibraryLoader {
@@ -38,7 +40,7 @@ public class LibraryLoader {
     private Library[] libraries;
     private JarClassLoader loader;
 
-    @Setter private static boolean forceLoad;
+    @Getter @Setter private static boolean forceLoad;
 
     public LibraryLoader(JarClassLoader loader, String libinfo, Logger logger, File dataFolder) {
         this.loader = loader;

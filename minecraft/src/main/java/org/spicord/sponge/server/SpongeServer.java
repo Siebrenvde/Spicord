@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -33,10 +34,13 @@ public class SpongeServer extends eu.mcdb.universal.Server {
     private final PluginContainer plugin;
     private final Server server;
 
+    private ScheduledExecutorService scheduler;
+
     public SpongeServer(Game game, PluginContainer plugin) {
         this.game = game;
         this.plugin = plugin;
         this.server = game.server();
+        this.scheduler = game.asyncScheduler().executor(plugin);
     }
 
     @Override
@@ -125,5 +129,10 @@ public class SpongeServer extends eu.mcdb.universal.Server {
     @Override
     public void registerCommand(Object plugin, UniversalCommand command) {
         SpongeCommandExecutor.register(plugin, command);
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return scheduler;
     }
 }

@@ -30,9 +30,10 @@ import org.spicord.event.EventHandler;
 import org.spicord.event.SpicordEvent;
 import org.spicord.util.JarClassLoader;
 import org.spicord.util.UpdateNotifier;
-import org.spicord.util.sched.SpicordSchedulerV1;
 
 import com.google.common.base.Preconditions;
+
+import eu.mcdb.universal.Server;
 
 public final class SpicordLoader {
 
@@ -67,10 +68,9 @@ public final class SpicordLoader {
         final boolean useTestScheduler = isJava17 || availableProcessors < 2;
 
         if (useTestScheduler) {
-
             plugin.getLogger().info("Using test scheduler");
 
-            this.threadPool = new SpicordSchedulerV1();
+            this.threadPool = Server.getInstance().getScheduler();
         } else
 
         if (availableProcessors > 1) {
@@ -101,10 +101,6 @@ public final class SpicordLoader {
         } catch (IOException e) {
             handleException(e);
         }
-
-        new UpdateNotifier(
-            "https://api.spicord.org/checkversion", logger, false
-        ).checkForVersionAsync(threadPool, Spicord.getVersion(), null);
     }
 
     private boolean isJava17OrGreater() {
@@ -119,6 +115,10 @@ public final class SpicordLoader {
     }
 
     public void load() {
+        new UpdateNotifier(
+            "https://api.spicord.org/checkversion", logger, false
+        ).checkForVersionAsync(threadPool, Spicord.getVersion(), null);
+
         new SpicordCommand(plugin).register(plugin);
 
         try {
