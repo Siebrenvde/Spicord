@@ -2,7 +2,6 @@ package org.spicord;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
@@ -17,13 +16,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class AbstractServerScheduler implements ScheduledExecutorService {
 
-    private boolean isShutdown = false;
-
     @Override
     public void execute(Runnable command) {
-        if (isShutdown) {
-            return;
-        }
         runTaskAsync(command);
     }
 
@@ -32,6 +26,7 @@ public abstract class AbstractServerScheduler implements ScheduledExecutorServic
         boolean isCancelled();
 
         void cancel();
+
     }
 
     protected abstract ServerTask runTaskAsync(Runnable runnable);
@@ -42,27 +37,27 @@ public abstract class AbstractServerScheduler implements ScheduledExecutorServic
 
     @Override
     public boolean isShutdown() {
-        return isShutdown;
+        return false;
     }
 
     @Override
     public boolean isTerminated() {
-        return isShutdown; // TODO
+        return false;
     }
 
     @Override
     public <T> Future<T> submit(Callable<T> task) {
-        return new BukkitFuture<>(task);
+        return new ScheduledFutureImpl<>(task);
     }
 
     @Override
     public <T> Future<T> submit(Runnable task, T result) {
-        return new BukkitFuture<>(toCallable(task, result));
+        return new ScheduledFutureImpl<>(toCallable(task, result));
     }
 
     @Override
     public Future<?> submit(Runnable task) {
-        return new BukkitFuture<>(toCallable(task));
+        return new ScheduledFutureImpl<>(toCallable(task));
     }
 
     @Override
@@ -100,17 +95,17 @@ public abstract class AbstractServerScheduler implements ScheduledExecutorServic
 
     @Override
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-        return new BukkitFuture<>(toCallable(command), unit, delay);
+        return new ScheduledFutureImpl<>(toCallable(command), unit, delay);
     }
 
     @Override
     public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
-        return new BukkitFuture<>(callable, unit, delay);
+        return new ScheduledFutureImpl<>(callable, unit, delay);
     }
 
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-        return new BukkitFuture<>(toCallable(command), unit, initialDelay, period);
+        return new ScheduledFutureImpl<>(toCallable(command), unit, initialDelay, period);
     }
 
     @Override
@@ -130,33 +125,28 @@ public abstract class AbstractServerScheduler implements ScheduledExecutorServic
 
     @Override
     public void shutdown() {
-        isShutdown = true;
+        throw new UnsupportedOperationException("not implemented");
     }
 
     @Override
     public List<Runnable> shutdownNow() {
-        shutdown();
-        return Collections.emptyList(); // TODO: Return list of non-executed tasks
+        throw new UnsupportedOperationException("not implemented");
     }
 
     @Override
     public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
-        return true; // TODO
+        throw new UnsupportedOperationException("not implemented");
     }
 
-    private class BukkitFuture<T> implements ScheduledFuture<T> {
+    private class ScheduledFutureImpl<T> implements ScheduledFuture<T> {
 
         private final ServerTask task;
-        private final AtomicReference<T> ret;
-        private final AtomicReference<Throwable> ex;
-        private final AtomicBoolean done;
+        private final AtomicReference<T> ret = new AtomicReference<>();
+        private final AtomicReference<Throwable> ex = new AtomicReference<>();
+        private final AtomicBoolean done = new AtomicBoolean(false);
 
-        public BukkitFuture(Callable<T> callable) {
-            this.ret = new AtomicReference<>();
-            this.ex = new AtomicReference<>();
-            this.done = new AtomicBoolean(false);
-
-            final Runnable r = () -> {
+        private Runnable createRunnable(Callable<T> callable) {
+            return () -> {
                 synchronized (done) {
                     try {
                         ret.set(callable.call());
@@ -167,51 +157,20 @@ public abstract class AbstractServerScheduler implements ScheduledExecutorServic
                     done.notify();
                 }
             };
-
-            this.task = runTaskAsync(r);
         }
 
-        public BukkitFuture(Callable<T> callable, TimeUnit unit, long delay) {
-            this.ret = new AtomicReference<>();
-            this.ex = new AtomicReference<>();
-            this.done = new AtomicBoolean(false);
-
-            final Runnable r = () -> {
-                synchronized (done) {
-                    try {
-                        ret.set(callable.call());
-                    } catch (Throwable e) {
-                        ex.set(e);
-                    }
-                    done.set(true);
-                    done.notify();
-                }
-            };
-
-            this.task = runTaskAsyncLater(r, unit, delay);
+        public ScheduledFutureImpl(Callable<T> callable) {
+            this.task = runTaskAsync(createRunnable(callable));
         }
 
-        public BukkitFuture(Callable<T> callable, TimeUnit unit, long delay, long period) {
-            this.ret = new AtomicReference<>();
-            this.ex = new AtomicReference<>();
-            this.done = new AtomicBoolean(false);
-
-            final Runnable r = () -> {
-                synchronized (done) {
-                    try {
-                        ret.set(callable.call());
-                    } catch (Throwable e) {
-                        ex.set(e);
-                    }
-                    done.set(true);
-                    done.notify();
-                }
-            };
-
-            this.task = runTaskAsyncLaterRepeating(r, unit, delay, period);
+        public ScheduledFutureImpl(Callable<T> callable, TimeUnit unit, long delay) {
+            this.task = runTaskAsyncLater(createRunnable(callable), unit, delay);
         }
 
-        
+        public ScheduledFutureImpl(Callable<T> callable, TimeUnit unit, long delay, long period) {
+            this.task = runTaskAsyncLaterRepeating(createRunnable(callable), unit, delay, period);
+        }
+
         @Override
         public boolean cancel(boolean mayInterruptIfRunning) {
             task.cancel();
