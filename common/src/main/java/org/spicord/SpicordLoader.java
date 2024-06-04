@@ -126,7 +126,7 @@ public final class SpicordLoader {
                 this.spicord.addEventListener(SpicordEvent.SPICORD_LOADED, listener);
             }
             spicord.onLoad(config);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             handleException(e);
         }
     }
@@ -146,7 +146,7 @@ public final class SpicordLoader {
         self = null;
     }
 
-    private void handleException(Exception e) {
+    private void handleException(Throwable e) {
         logger.severe("Spicord could not be loaded, please report this error in \n\t -> https://github.com/Spicord/Spicord/issues");
         e.printStackTrace();
         shutdown();

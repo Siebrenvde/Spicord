@@ -8,7 +8,7 @@ public interface EventHandler<T> {
     default void handleSafe(T object) {
         try {
             handle(object);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
     }

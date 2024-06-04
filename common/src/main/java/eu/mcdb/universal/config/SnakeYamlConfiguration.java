@@ -22,7 +22,11 @@ class SnakeYamlConfiguration extends YamlConfiguration {
         this.file = file;
         try {
             final DumperOptions options = new DumperOptions();
-            options.setIndicatorIndent(1);
+
+            try {
+                options.setIndicatorIndent(1);
+            } catch (NoSuchMethodError e) {/* Not available on 1.8.8 */}
+
             this.yaml = new Yaml(options);
             this.map = yaml.load(new FileReader(file));
         } catch (IOException e) {

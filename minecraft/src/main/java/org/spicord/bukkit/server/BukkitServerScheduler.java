@@ -25,12 +25,12 @@ public class BukkitServerScheduler extends AbstractServerScheduler {
     protected ServerTask runTaskAsync(Runnable runnable) {
         return new ServerTaskImpl(server.getScheduler().runTaskAsynchronously(plugin, runnable));
     }
-    
+
     @Override
     protected ServerTask runTaskAsyncLater(Runnable runnable, TimeUnit unit, long delay) {
         return new ServerTaskImpl(server.getScheduler().runTaskLaterAsynchronously(plugin, runnable, toTicks(unit, delay)));
     }
-    
+
     @Override
     protected ServerTask runTaskAsyncLaterRepeating(Runnable runnable, TimeUnit unit, long delay, long period) {
         return new ServerTaskImpl(server.getScheduler().runTaskTimerAsynchronously(plugin, runnable, toTicks(unit, delay), toTicks(unit, period)));
