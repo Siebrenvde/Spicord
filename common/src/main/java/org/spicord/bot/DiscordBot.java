@@ -55,6 +55,7 @@ import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.entities.ApplicationInfo;
 import net.dv8tion.jda.api.entities.ApplicationTeam;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.TeamMember;
 import net.dv8tion.jda.api.entities.TeamMember.MembershipState;
 import net.dv8tion.jda.api.entities.User;
@@ -121,7 +122,6 @@ public class DiscordBot extends SimpleBot {
         boolean commandSupportEnabled,
         String prefix
     ) {
-
         super(name, token);
 
         this.spicord = spicord;
@@ -181,7 +181,7 @@ public class DiscordBot extends SimpleBot {
             builder.setCallbackPool(threadPool, false);
             builder.setEventPool(threadPool, false);
             builder.setGatewayPool(threadPool, false);
-            builder.setRateLimitPool(threadPool, false);
+            builder.setRateLimitScheduler(threadPool, false);
 
             for (CacheFlag flag : CacheFlag.values()) {
                 if (flag.getRequiredIntent() == null) {
@@ -244,8 +244,19 @@ public class DiscordBot extends SimpleBot {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     private void onReady(ReadyEvent event) {
-        this.botId = jda.getSelfUser().getIdLong();
+        final SelfUser self = jda.getSelfUser();
+
+        this.botId = self.getIdLong();
+
+        logger.info(String.format("Logged in as %s#%s (id: %s)", self.getName(), self.getDiscriminator(), self.getId()));
+
+        logger.info("Available Guilds:");
+        for (Guild guild : jda.getGuilds()) {
+            logger.info(String.format(" - %s (id: %s)", guild.getName(), guild.getId()));
+        }
+
         for (SimpleAddon addon : loadedAddons) {
             addon.onReady(this);
         }
@@ -658,9 +669,16 @@ public class DiscordBot extends SimpleBot {
 
         @Override
         public void onReady(ReadyEvent event) {
-
             if (bot.initialCommandCleanup) {
+
+                // Delete all global commands
                 jda.updateCommands().queue();
+
+                // Delete all guild commands
+                for (Guild guild : jda.getGuilds()) {
+                    guild.updateCommands().queue();
+                }
+
                 spicord.debug("Cleaning up commands for bot %s", bot.getName());
             }
 
