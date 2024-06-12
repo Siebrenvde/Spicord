@@ -141,8 +141,6 @@ public final class Spicord {
             config.getBots().clear();
         }
 
-        threadPool.shutdownNow();
-
         this.threadPool = null;
         this.addonManager = null;
         this.serviceManager = null;
