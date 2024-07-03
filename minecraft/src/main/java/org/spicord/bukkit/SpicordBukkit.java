@@ -28,6 +28,7 @@ import org.spicord.bukkit.server.BukkitServer;
 import org.spicord.fix.Fixes;
 
 import eu.mcdb.universal.Server;
+import eu.mcdb.universal.ServerType;
 
 public class SpicordBukkit extends JavaPlugin implements SpicordPlugin {
 
@@ -51,7 +52,7 @@ public class SpicordBukkit extends JavaPlugin implements SpicordPlugin {
     public void onLoad() {
         Fixes.checkForceload(this);
 
-        Server.setInstance(new BukkitServer(getServer(), this));
+        Server.setInstance(new BukkitServer(getServer(), this), ServerType.BUKKIT);
 
         this.loader = new SpicordLoader(this);
     }

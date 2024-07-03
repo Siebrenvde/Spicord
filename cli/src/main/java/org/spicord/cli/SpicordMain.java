@@ -30,6 +30,7 @@ import org.spicord.cli.log.FormattedLogger;
 import org.spicord.reflect.ReflectUtils;
 
 import eu.mcdb.universal.Server;
+import eu.mcdb.universal.ServerType;
 
 public class SpicordMain implements SpicordPlugin {
 
@@ -69,7 +70,7 @@ public class SpicordMain implements SpicordPlugin {
     }
 
     public SpicordMain(String[] args) throws IOException {
-        Server.setInstance(new DummyServer());
+        Server.setInstance(new DummyServer(), ServerType.UNKNOWN);
 
         this.preload();
         this.reloadSpicord();

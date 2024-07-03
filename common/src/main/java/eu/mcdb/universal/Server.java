@@ -33,8 +33,9 @@ public abstract class Server implements ServerInterface {
     @Getter private static Server instance;
     @Getter @Setter private boolean debugEnabled; // false by default
 
-    public static void setInstance(Server instance) {
+    public static void setInstance(Server instance, ServerType serverType) {
         Server.instance = instance;
+        Server.serverType = serverType;
     }
 
     public boolean isProxy() {

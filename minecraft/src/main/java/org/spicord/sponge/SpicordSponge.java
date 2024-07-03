@@ -21,6 +21,7 @@ import org.spongepowered.plugin.builtin.jvm.Plugin;
 import com.google.inject.Inject;
 
 import eu.mcdb.universal.Server;
+import eu.mcdb.universal.ServerType;
 
 @Plugin("spicord")
 public class SpicordSponge implements SpicordPlugin {
@@ -35,7 +36,7 @@ public class SpicordSponge implements SpicordPlugin {
         Game game,
         PluginContainer container
     ) {
-        Server.setInstance(new SpongeServer(game, container));
+        Server.setInstance(new SpongeServer(game, container), ServerType.SPONGE);
 
         this.dataFolder = dataFolder.toFile();
         this.loader = new SpicordLoader(new MostInefficientClassLoader(), this);

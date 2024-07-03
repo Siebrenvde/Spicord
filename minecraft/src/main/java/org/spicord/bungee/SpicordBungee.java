@@ -26,6 +26,7 @@ import org.spicord.bungee.server.BungeeServer;
 import org.spicord.fix.Fixes;
 
 import eu.mcdb.universal.Server;
+import eu.mcdb.universal.ServerType;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class SpicordBungee extends Plugin implements SpicordPlugin {
@@ -50,7 +51,7 @@ public class SpicordBungee extends Plugin implements SpicordPlugin {
     public void onLoad() {
         Fixes.checkForceload(this);
 
-        Server.setInstance(new BungeeServer(getProxy(), this));
+        Server.setInstance(new BungeeServer(getProxy(), this), ServerType.BUNGEECORD);
 
         this.loader = new SpicordLoader(this);
     }

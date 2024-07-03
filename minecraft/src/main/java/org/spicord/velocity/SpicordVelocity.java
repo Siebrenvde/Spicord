@@ -34,6 +34,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 
 import eu.mcdb.universal.Server;
+import eu.mcdb.universal.ServerType;
 
 @Plugin(id = "spicord", name = "Spicord", version = "5.5.0", authors = { "Tini" })
 public class SpicordVelocity extends VelocityPlugin implements SpicordPlugin {
@@ -58,7 +59,7 @@ public class SpicordVelocity extends VelocityPlugin implements SpicordPlugin {
     public SpicordVelocity(ProxyServer server) {
         super(server);
 
-        Server.setInstance(new VelocityServer(server, this));
+        Server.setInstance(new VelocityServer(server, this), ServerType.BUKKIT);
 
         if (this.loader != null) {
             this.loader.shutdown();
