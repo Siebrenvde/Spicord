@@ -29,6 +29,8 @@ public abstract class AbstractServerScheduler implements ScheduledExecutorServic
 
     }
 
+    protected abstract boolean isPluginEnabled();
+
     protected abstract ServerTask runTaskAsync(Runnable runnable);
 
     protected abstract ServerTask runTaskAsyncLater(Runnable runnable, TimeUnit unit, long delay);

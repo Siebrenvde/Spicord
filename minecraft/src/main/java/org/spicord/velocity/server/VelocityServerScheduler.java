@@ -19,6 +19,11 @@ public class VelocityServerScheduler extends AbstractServerScheduler {
         this.plugin = plugin;
     }
 
+    @Override
+    protected boolean isPluginEnabled() {
+        return server.getPluginManager().isLoaded("spicord");
+    }
+
     private TaskBuilder buildTask(Runnable r) {
         return server.getScheduler().buildTask(plugin, r);
     }

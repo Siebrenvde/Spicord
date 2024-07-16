@@ -19,6 +19,11 @@ public class BungeeServerScheduler extends AbstractServerScheduler {
     }
 
     @Override
+    protected boolean isPluginEnabled() {
+        return true;
+    }
+
+    @Override
     protected ServerTask runTaskAsync(Runnable runnable) {
         return new ServerTaskImpl(server.getScheduler().runAsync(plugin, runnable));
     }

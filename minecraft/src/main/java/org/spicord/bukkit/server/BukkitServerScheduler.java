@@ -22,6 +22,11 @@ public class BukkitServerScheduler extends AbstractServerScheduler {
     }
 
     @Override
+    protected boolean isPluginEnabled() {
+        return plugin.isEnabled();
+    }
+
+    @Override
     protected ServerTask runTaskAsync(Runnable runnable) {
         return new ServerTaskImpl(server.getScheduler().runTaskAsynchronously(plugin, runnable));
     }
