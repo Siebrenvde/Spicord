@@ -70,7 +70,7 @@ public class LibraryLoader {
         for (final Library lib : libraries) {
             this.downloadLibrary(lib, false);
         }
-        if (!Boolean.getBoolean("spicord.skipIntegrityCheck")) {
+        if (Boolean.getBoolean("spicord.skipIntegrityCheck")) {
             logger.warning("Skipped integrity check");
         } else {
             this.sha1Check(false);
