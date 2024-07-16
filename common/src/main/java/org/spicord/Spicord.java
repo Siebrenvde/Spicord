@@ -103,10 +103,10 @@ public final class Spicord {
             logger.setLevel(Level.FINER);
         }
 
-        if (config.isJdaMessagesEnabled() && false) {
+        if (config.isJdaMessagesEnabled()) {
             try {
-                Class<?> cls = Class.forName("org.spicord.log.LoggerFactory");
-                Method init = cls.getMethod("init", Logger.class);
+                Class<?> cls = Class.forName("org.spicord.log.SpicordLogger", false, Spicord.class.getClassLoader());
+                Method init = cls.getMethod("setLogger", Logger.class);
                 init.invoke(null, logger);
             } catch (Exception e) {
                 logger.warning("Failed to enable JDA messages: " + e.getMessage());
