@@ -40,6 +40,8 @@ public abstract class SimpleAddon {
     private final String name;
     private final String author;
     private final String version;
+
+    @Deprecated
     private final String[] commands;
 
     //--------------
@@ -110,6 +112,7 @@ public abstract class SimpleAddon {
      * @param author   the addon author
      * @param commands the command list
      */
+    @Deprecated
     public SimpleAddon(String name, String id, String author, String[] commands) {
         this(name, id, author, "unknown", commands);
     }
@@ -123,6 +126,7 @@ public abstract class SimpleAddon {
      * @param version  the addon version
      * @param commands the command list
      */
+    @Deprecated
     public SimpleAddon(String name, String id, String author, String version, String[] commands) {
         this.name = name;
         this.id = id;
@@ -183,6 +187,7 @@ public abstract class SimpleAddon {
      *                sender and related to the message
      * @param args    the command arguments
      */
+    @Deprecated
     public void onCommand(DiscordBotCommand command, String[] args) {
     }
 

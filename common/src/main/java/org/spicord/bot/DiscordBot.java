@@ -59,6 +59,7 @@ import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.TeamMember;
 import net.dv8tion.jda.api.entities.TeamMember.MembershipState;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.StatusChangeEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -244,7 +245,6 @@ public class DiscordBot extends SimpleBot {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     private void onReady(ReadyEvent event) {
         final SelfUser self = jda.getSelfUser();
 
@@ -378,6 +378,7 @@ public class DiscordBot extends SimpleBot {
      * @throws NullPointerException if one of the arguments is null
      * @throws IllegalArgumentException if the {@code name} is empty or contains spaces
      */
+    @Deprecated
     public void onCommand(String name, Consumer<DiscordBotCommand> command) {
         Preconditions.checkNotNull(name, "name");
         Preconditions.checkNotNull(command, "command");
@@ -405,6 +406,7 @@ public class DiscordBot extends SimpleBot {
      * @throws NullPointerException if one of the arguments is null
      * @throws IllegalArgumentException if the {@code name} is empty or contains spaces
      */
+    @Deprecated
     public void onCommand(String name, BotCommand command) {
         this.onCommand(name, comm -> command.onCommand(comm, comm.getArguments()));
     }
@@ -414,6 +416,7 @@ public class DiscordBot extends SimpleBot {
      * 
      * @param command the command to be registered
      */
+    @Deprecated
     public void registerCommand(final DiscordCommand command) {
         this.onCommand(command.getName(), command);
 
@@ -427,6 +430,7 @@ public class DiscordBot extends SimpleBot {
      * 
      * @param name the command name
      */
+    @Deprecated
     public void unregisterCommand(String name) {
         commands.remove(name);
     }
@@ -436,6 +440,7 @@ public class DiscordBot extends SimpleBot {
      * 
      * @param names the names of the commands
      */
+    @Deprecated
     public void unregisterCommands(String... names) {
         for (String name : names) {
             commands.remove(name);
