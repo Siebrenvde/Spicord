@@ -59,7 +59,7 @@ public class SpicordVelocity extends VelocityPlugin implements SpicordPlugin {
     public SpicordVelocity(ProxyServer server) {
         super(server);
 
-        Server.setInstance(new VelocityServer(server, this), ServerType.BUKKIT);
+        Server.setInstance(new VelocityServer(server, this), ServerType.VELOCITY);
 
         if (this.loader != null) {
             this.loader.shutdown();
