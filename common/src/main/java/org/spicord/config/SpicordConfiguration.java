@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import org.spicord.Spicord;
 import org.spicord.bot.DiscordBot;
 
+import com.google.gson.Gson;
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
 
@@ -95,7 +97,11 @@ public final class SpicordConfiguration {
 
         try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 final FileOutputStream fos = new FileOutputStream(configFile)) {
-            writer.write(config, baos);
+            Gson gson = new Gson();
+            writer.write(
+                gson.fromJson(gson.toJsonTree(config), Map.class),
+                baos
+            );
             String str = fixIndentation(new String(baos.toByteArray()));
             fos.write(str.getBytes(Charset.forName("UTF-8")));
             fos.flush();
