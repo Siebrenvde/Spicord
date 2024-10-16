@@ -10,9 +10,9 @@
     "url": "https://github.com/Spicord/spicord-jda/releases/download/v5.0.1/JDA-5.0.1-min.jar"
   },
   {
-    "name": "org.mozilla:rhino:1.7.12",
-    "sha1": "16d8b370e5dd4513d15ee1b4b471b9542ebccfa1",
-    "url": "https://repo1.maven.org/maven2/org/mozilla/rhino/1.7.12/rhino-1.7.12.jar"
+    "name": "org.mozilla:rhino:1.7.15",
+    "sha1": "39e53f8e769ea9a7e799f266aa47c85edd99a29e",
+    "url": "https://repo1.maven.org/maven2/org/mozilla/rhino/1.7.15/rhino-1.7.15.jar"
   },
   {
     "name": "org.yaml:snakeyaml:1.26",

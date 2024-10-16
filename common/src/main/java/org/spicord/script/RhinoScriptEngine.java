@@ -145,6 +145,7 @@ class RhinoScriptEngine extends ScriptEngine {
         if (ctx == null) {
             ctx = Context.enter();
         }
+        ctx.setLanguageVersion(Context.VERSION_ES6);
         return ctx;
     }
 
