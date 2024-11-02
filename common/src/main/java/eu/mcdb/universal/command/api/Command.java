@@ -17,11 +17,7 @@
 
 package eu.mcdb.universal.command.api;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import eu.mcdb.universal.command.UniversalCommand;
 import eu.mcdb.universal.command.UniversalCommandSender;
@@ -194,6 +190,43 @@ public class Command extends UniversalCommand {
             } else sendMissingPermissionMessage(sender);
         }
         return false;
+    }
+
+    @Override
+    public List<String> getSuggestions(UniversalCommandSender sender, String[] args) {
+        List<String> suggestions = new ArrayList<>();
+
+        // Don't show suggestions if the sender doesn't have permission
+        if(!sender.hasPermission(getPermission())) return suggestions;
+
+        // If there are any subcommands
+        if(!subCommands.isEmpty()) {
+            if(args.length <= 1) {
+                subCommands.forEach(command -> {
+                    if( // If we're on the root command or the subcommand starts with the first argument, add to suggestions
+                        (args.length == 0 || command.getName().startsWith(args[0].toLowerCase()))
+                        && sender.hasPermission(command.getPermission())
+                    ) suggestions.add(command.getName());
+                });
+            } else {
+                for(Command command : subCommands) {
+                    // If the first argument is a valid subcommand, return the subcommand's suggestions
+                    if(command.getName().equalsIgnoreCase(args[0])) {
+                        return command.getSuggestions(sender, ArrayUtils.shift(args));
+                    }
+                }
+            }
+        }
+
+        if(!parameters.isEmpty() && parameters.size() >= args.length) {
+            ParameterSuggestionProvider provider = parameters.get(Math.max(0, args.length - 1)).getSuggestionProvider();
+            if (provider != null) provider.suggest(args).forEach(suggestion -> {
+                // If we're on the root command or the parameter's suggestion starts with the first argument, add to suggestions
+                if(args.length == 0 || suggestion.startsWith(args[args.length - 1].toLowerCase())) suggestions.add(suggestion);
+            });
+        }
+
+        return suggestions;
     }
 
     /**
