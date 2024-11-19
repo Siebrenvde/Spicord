@@ -30,7 +30,9 @@ public class SpongeCommandExecutor implements Command.Raw {
             cause.subject() instanceof ServerPlayer
                 ? new SpongePlayer((ServerPlayer) cause.subject())
                 : new SpongeCommandSender(cause),
-            arguments.input().split(" ")
+            arguments.input().isEmpty()
+                ? new String[0]
+                : arguments.input().split(" ")
         );
         return CommandResult.success();
     }
