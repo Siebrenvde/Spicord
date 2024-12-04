@@ -17,7 +17,8 @@
 
 package org.spicord;
 
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.spicord.api.addon.SimpleAddon;
 import org.spicord.bot.DiscordBot;
@@ -44,19 +45,30 @@ public final class SpicordCommand extends Command {
 
         // bot command
         Command bot = new Command("bot", "spicord.admin.bot");
-        bot.setParameter(0, new CommandParameter("botname"));
-        bot.setParameter(1, new CommandParameter("action", "add/remove", false));
-        bot.setParameter(2, new CommandParameter("id", "addon-id", false));
+        bot.setParameter(0, new CommandParameter("botname", null, false, args -> {
+            // Suggests a list of all bots
+            return getBots().stream().map(DiscordBot::getName).collect(Collectors.toList());
+        }));
+        bot.setParameter(1, new CommandParameter("action", "add/remove", false, args -> {
+            return Arrays.asList("add", "remove");
+        }));
+        bot.setParameter(2, new CommandParameter("id", "addon-id", false, this::addonIdSuggestions));
         bot.setCommandHandler(this::handleBot);
 
         // stop command
         Command stop = new Command("stop", "spicord.admin.stop");
-        stop.setParameter(0, new CommandParameter("botname", true));
+        stop.setParameter(0, new CommandParameter("botname", null, true, args -> {
+            // Suggests a list of all enabled bots
+            return getBots().stream().filter(DiscordBot::isEnabled).map(DiscordBot::getName).collect(Collectors.toList());
+        }));
         stop.setCommandHandler(this::handleStop);
 
         // start command
         Command start = new Command("start", "spicord.admin.start");
-        start.setParameter(0, new CommandParameter("botname", true));
+        start.setParameter(0, new CommandParameter("botname", null, true, args -> {
+            // Suggests a list of all disabled bots
+            return getBots().stream().filter(DiscordBot::isDisabled).map(DiscordBot::getName).collect(Collectors.toList());
+        }));
         start.setCommandHandler(this::handleStart);
 
         // restart command
@@ -170,4 +182,28 @@ public final class SpicordCommand extends Command {
         sender.sendFormattedMessage("&7&l[&a&lSpicord&7&l] &f--------");
         return true;
     }
+
+    private Set<DiscordBot> getBots() {
+        return plugin.getSpicord().getConfig().getBots();
+    }
+
+    private List<String> addonIdSuggestions(String[] args) {
+        DiscordBot discordBot = plugin.getSpicord().getBotByName(args[0]);
+        if(discordBot != null) switch(args[1].toLowerCase()) {
+            case "add":
+                // Returns all registered addons that have not yet been added to the bot
+                return plugin.getSpicord().getAddonManager().getAddons().stream()
+                    .map(SimpleAddon::getId)
+                    .filter(id -> !discordBot.getAddons().contains(id))
+                    .collect(Collectors.toList());
+            case "remove":
+                // Returns all addons that have been added to the bot
+                return new ArrayList<>(discordBot.getAddons());
+        }
+        // Returns an empty list if:
+        // - the provided bot doesn't exist
+        // - the action was not add or remove
+        return Collections.emptyList();
+    }
+
 }

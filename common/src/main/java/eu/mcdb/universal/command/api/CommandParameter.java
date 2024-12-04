@@ -32,6 +32,8 @@ public class CommandParameter {
     private String displayName;
     @Getter
     private final boolean optional;
+    @Getter
+    private ParameterSuggestionProvider suggestionProvider;
 
     /**
      * Create a command parameter with the given name

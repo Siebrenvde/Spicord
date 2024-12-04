@@ -19,6 +19,8 @@ package eu.mcdb.universal.command;
 
 import eu.mcdb.universal.Server;
 
+import java.util.List;
+
 public abstract class UniversalCommand {
 
     private final String name;
@@ -58,6 +60,15 @@ public abstract class UniversalCommand {
      * @return true if the command execution ended successfully
      */
     public abstract boolean onCommand(UniversalCommandSender sender, String[] args);
+
+    /**
+     * Get a list of command suggestions
+     *
+     * @param sender the sender attempting to get suggestions
+     * @param args the entered arguments
+     * @return a list of command suggestions
+     */
+    public abstract List<String> getSuggestions(UniversalCommandSender sender, String[] args);
 
     /**
      * Get the command name.
