@@ -30,13 +30,15 @@ public class SpicordSponge implements SpicordPlugin {
 
     private File dataFolder;
 
+    private Runnable serverInstanceSetter;
+
     @Inject
     public SpicordSponge(
         @ConfigDir(sharedRoot = false) Path dataFolder,
         Game game,
         PluginContainer container
     ) {
-        Server.setInstance(new SpongeServer(game, container), ServerType.SPONGE);
+        serverInstanceSetter = () -> Server.setInstance(new SpongeServer(game, container), ServerType.SPONGE);
 
         this.dataFolder = dataFolder.toFile();
         this.loader = new SpicordLoader(new MostInefficientClassLoader(), this);
@@ -50,6 +52,8 @@ public class SpicordSponge implements SpicordPlugin {
     }
 
     private void loadSpicord() {
+        serverInstanceSetter.run();
+
         final int loadDelay = loader.getConfig().getLoadDelay();
 
         getLogger().info("Spicord will load in " + loadDelay + " seconds");
