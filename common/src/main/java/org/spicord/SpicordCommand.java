@@ -59,7 +59,10 @@ public final class SpicordCommand extends Command {
         Command stop = new Command("stop", "spicord.admin.stop");
         stop.setParameter(0, new CommandParameter("botname", null, true, args -> {
             // Suggests a list of all enabled bots
-            return getBots().stream().filter(DiscordBot::isEnabled).map(DiscordBot::getName).collect(Collectors.toList());
+            return getBots().stream()
+                .filter(discordBot -> discordBot.getStatus() != BotStatus.OFFLINE && discordBot.getStatus() != BotStatus.STOPPING)
+                .map(DiscordBot::getName)
+                .collect(Collectors.toList());
         }));
         stop.setCommandHandler(this::handleStop);
 
@@ -67,7 +70,7 @@ public final class SpicordCommand extends Command {
         Command start = new Command("start", "spicord.admin.start");
         start.setParameter(0, new CommandParameter("botname", null, true, args -> {
             // Suggests a list of all disabled bots
-            return getBots().stream().filter(DiscordBot::isDisabled).map(DiscordBot::getName).collect(Collectors.toList());
+            return getBots().stream().filter(discordBot -> !discordBot.isReady()).map(DiscordBot::getName).collect(Collectors.toList());
         }));
         start.setCommandHandler(this::handleStart);
 
